@@ -90,7 +90,7 @@ class jms_asset():
                 if each_node == each_node_uuid['value']:
                     logger.debug(each_node_uuid)
                     regiser_node_list.append(each_node_uuid['id'])
-        logger.info(regiser_node_list)
+        logger.debug(regiser_node_list)
         primary_data['nodes'] = regiser_node_list
         primary_data['admin_user'] = admin_uuid
         # primary_data['system-user'] = sys_uuid

@@ -40,16 +40,23 @@ class jms_asset():
         logger.debug('Abug Import Data is %s' % import_data)
         logger.debug('Abug Now JMS Server List is' % jms_data)
         register_list = []
+        now_jms_server_list = list(map((lambda x: x['hostname']), jms_data))
+        new_imp_list =  list(filter((lambda x:x if x['hostname'] not in now_jms_server_list else False), import_data))
+        if new_imp_list:
+            for i in new_imp_list:
+                register_list.append(i)
+                logger.info('Abug The New Host %s is will be Register' % (i['hostname']))
         for i in import_data:
             if jms_data:
                 for x in jms_data:
                     if i['hostname'] == x['hostname'] and i['comment'] == x['comment']:
                         logger.warn('The Host %s is aleary exist' % (i['hostname']))
-                    elif 'hostname' in i.keys() and 'hostname' not in x.keys():
+                    elif i['hostname'] == x['hostname'] :
                         register_list.append(i)
+                        logger.warn('The Host %s is will be Update'% (i['hostname']))
             else:
                 register_list.append(i)
-        logger.debug('Adebug: Filter Register List is %s' %register_list)
+        logger.info('Adebug: Filter Register List is %s' %(register_list))
         return register_list
 
     def jms_data_reform(self, primary_data, admin_user, sys_user, ass_node='DEFAULT'):

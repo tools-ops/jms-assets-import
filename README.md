@@ -32,6 +32,7 @@ git clone git@github.com:Gourds/jms-assets-import.git
 - API文档
 ```
 http://your_jms_host:port/api/assets/v1/nodes/
+https://docs.jumpserver.org/zh/docs/api_style_guide.html
 ```
 
 - 获取token

@@ -37,47 +37,17 @@ http://your_jms_host:port/api/assets/v1/nodes/
 https://docs.jumpserver.org/zh/docs/api_style_guide.html
 ```
 
-- 获取token
+- 数据格式，根据需要参考API确定需要哪些key
 ```
-curl -XPOST -d'username=admin,password=xxxxxxx' http:///yourjms.address/api/users/v1/token/
-```
-
-- 获取所有用户
-```
-curl -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' -XGET http://yourjms.address/api/users/v1/users/
-```
-
-- 获取系统管理用户信息
-```
-curl -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' -XGET http://yourjms.address/api/assets/v1/admin-user/?name={ops-root}
-```
-
-- 创建用户组
-```
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' -d '{"id":"96ea1864-f920-4b97-b8ca-5714e8426ed7","is_discard": false,"discard_time": "","name":"YourGroupName","comment":"","created_by": "administrator","date_created":"2018-06-06 06:03:03 +0000","discard_time":"2018-06-11 06:03:03 +0000"}' 'http://yourjms.address/api/users/v1/groups/'
-```
-
-- 创建用户并加入组
-```
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' 'http://yourjms.address/api/users/v1/users/' -d '{"id": "7e9174ef-6c1c-440d-9c9e-499496aaea19","groups": ["96ea1864-f920-4b97-b8ca-5714e8426ed7"],"last_login": "2018-05-19 06:03:03 +0000","is_active": true,"date_joined": "2018-06-06 06:03:03 +0000","username": "YourUserName","name": "YourUserName","email": "[your@main.com](mailto:your@mail.com)","role": "Admin","avatar": null,"wechat": "","phone": "","otp_level": 0,"comment": "","is_first_login": true,"date_expired": "2088-05-19 06:03:03 +0000","created_by": "2018-05-19 06:03:03 +0000"}'
-```
-
-- 获取系统用户详细信息
-```
-curl -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' -XGET http://yourjms.address/api/assets/v1/system-user/?name={ops-user}
-```
-
-- 获取目前已有的资产节点（返回list）
-```
-curl -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' -XGET http://yourjms.address/api/assets/v1/nodes/
-```
-
-- 创建用户资产
-```
-curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' -d '{"id": "123a01b7-b21f-4623-b7b3-7f2715ee4321","ip": "10.0.0.1","hostname": "YourHostName","port": 22,"platform": "Linux","is_active": true,"public_ip": null,"created_by": null,"comment": "","admin_user": "872a01b7-b21f-4623-b7b3-7f2715ee4ed8", "nodes": ["7e9174ef-6c1c-440d-9c9e-499496aaea19"]}' 'http://192.168.188.84/api/assets/v1/assets/'
-```
-
-- 获取所有资产
-```
-curl -X GET --header 'Content-Type: application/json' --header 'Accept: application/json' -H 'Authorization: Bearer 95a497da37ed492fa113a12a3f4a81d1' 'http://yourjms.address/api/assets/v1/assets/'
+{
+	'hostname': 'xxx',
+	'id': 'xxx-xxx-xxx-xxx',
+	'ip': '1.1.1.1',
+	'is_actice': 'true',
+	'comment': '[xxx]',
+	'nodes': ['xxx-xxx-xxx-xxx', 'xxx-xxx-xxx-xxx'],
+	'domain': 'xxx-xxx-xxx-xxx',
+	'admin_user': 'xxx-xxx-xxx-xxx',
+	'protocols': ['ssh/22']
+}
 ```

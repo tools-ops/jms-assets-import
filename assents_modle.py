@@ -25,6 +25,7 @@ class aws_ec2_assent():
         final_re = '|'.join(default_re.split('|') + extend_re.split('|')).strip('|')
         Log.debug(final_re)
         server_list = []
+        search_shard = extend_mesage(project)
         for each_instance in self.ec2.instances.all():
             server_info = {}
             Name_index = [i for i, x in enumerate(each_instance.tags) if x['Key'].find('Name') != -1]
@@ -40,14 +41,15 @@ class aws_ec2_assent():
             server_info['ip'] = each_instance.private_ip_address
             server_info['is_actice'] = 'true'
             server_info['platform'] = "Linux"
-            if not extend_mesage(project, each_instance.private_ip_address):
+            try:
+                server_info['comment'] = search_shard[each_instance.private_ip_address]
+            except KeyError:
                 Comman_index = [i for i, x in enumerate(each_instance.tags) if x['Key'].find('Service') != -1]
                 if Comman_index:
                     comman_info = str(each_instance.tags[Comman_index[0]]['Value'])
                 else:
                     comman_info = '[]'
                 server_info['comment'] = comman_info
-            server_info['comment'] = extend_mesage(project, each_instance.private_ip_address)
             Log.debug(server_info)
             server_list.append(server_info)
         return server_list
@@ -67,6 +69,7 @@ class ali_ecs_assent():
         data = json.loads(response)
         PageNumber = int(data['TotalCount'] / 50 + 2)
         list = []
+        search_shard = extend_mesage(project)
         for Number in range(1, PageNumber):
             request.set_PageNumber(Number)
             request.set_PageSize(50)
@@ -85,13 +88,14 @@ class ali_ecs_assent():
                     dict['hostname'] = host['InstanceName']
                 dict['is_active'] = 'true'
                 dict['platform'] = "Linux"
-                if not extend_mesage(project, dict['ip']):
+                try:
+                    dict['comment'] = search_shard[each_instance.private_ip_address]
+                except KeyError:
                     if 'Tags' in host:
                         comment=host['Tags']['Tag'][0]['TagValue']
                         dict['comment'] = "[%s]" %comment
                     else:
                         dict['comment'] = "[123]"
-                dict['comment'] = extend_mesage(project, dict['ip'])
                 # if host['InstanceName'].startswith('G') or host['InstanceName'].startswith('c'):
                 final_re = '|'.join(default_re.split('|') + extend_re.split('|')).strip('|')
                 if re.search(final_re, host['InstanceName']):

@@ -50,15 +50,20 @@ class Etcd():
 
 
 
-def extend_mesage(project_config,private_ip):
+def extend_mesage(project_config):
     a = Etcd(project_config)
     db = a.get_data()
-    rst=[]
+    rst={}
     for each_record in db:
-        if private_ip == each_record['gm/private_ip']:
-            rst.append(each_record['merge_rel'])
-    return ','.join(list(set(rst)))
+        ip = each_record['gm/private_ip']
+        try :
+            if each_record['merge_rel'] not in rst[ip]:
+                rst[ip].append(each_record['merge_rel'])
+        except KeyError:
+            rst[ip] = [each_record['merge_rel']]
+    return rst
 
 
 if __name__ == '__main__':
-    pass
+    rst = extend_mesage('prod-jws-hmt')
+    print(rst)

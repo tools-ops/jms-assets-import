@@ -89,7 +89,7 @@ class ali_ecs_assent():
                 dict['is_active'] = 'true'
                 dict['platform'] = "Linux"
                 try:
-                    dict['comment'] = search_shard[each_instance.private_ip_address]
+                    dict['comment'] = search_shard[dict['ip']]
                 except KeyError:
                     if 'Tags' in host:
                         comment=host['Tags']['Tag'][0]['TagValue']
